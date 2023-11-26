@@ -1,10 +1,96 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Моя домашняя страница</title>
-</head>
-<body>
-    <h1>Добро пожаловать на мою домашнюю страницу!</h1>
-    <p>Это просто пример.</p>
-</body>
-</html>
+{% extends './base.html' %}
+{% load static %}
+{% block header %}
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <!-- Ссылка на Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="text-center">Список лекарств</h1>
+        <!-- Поиск по лекарствам -->
+        <div class="row mt-4">
+            <div class="col-md-6 offset-md-3">
+                <form>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Поиск лекарств...">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button">Поиск</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderModalLabel">Оформление заказа</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Форма для ввода адреса, аптеки и контактных данных -->
+                        <form id="orderForm">
+                            <div class="form-group">
+                                <label for="deliveryAddress">Адрес доставки</label>
+                                <input type="text" class="form-control" id="deliveryAddress" placeholder="Введите адрес">
+                            </div>
+                            <div class="form-group">
+                                <label for="pharmacySelect">Выберите аптеку</label>
+                                <select class="form-control" id="pharmacySelect">
+                                    <!-- Здесь должны быть варианты аптек -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="contactName">Имя и фамилия</label>
+                                <input type="text" class="form-control" id="contactName" placeholder="Введите имя и фамилию">
+                            </div>
+                            <div class="form-group">
+                                <label for="contactPhone">Контактный телефон</label>
+                                <input type="text" class="form-control" id="contactPhone" placeholder="Введите номер телефона">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Отправить заказ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Карточки с лекарствами -->
+        <div class="row mt-4">
+            {% for medicine in medicines %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img src="{{ medicine.image.url }}" class="card-img-top" alt="{{ medicine.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ medicine.name }}</h5>
+                            <p class="card-text">{{ medicine.description }}</p>
+                            <p class="card-text">Цена: {{ medicine.price }}</p>
+                            <form action="{% url 'order_medicine' %}" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="medicine_id" value="{{ medicine.id }}">
+                                <label for="pharmacy_select">Выберите аптеку:</label>
+                                <select name="pharmacy" class="form-control" id="pharmacy_select">
+                                    {% for pharmacy in medicine.pharmacy_set.all %}
+                                        <option value="{{ pharmacy.id }}">{{ pharmacy.name }}</option>
+                                    {% endfor %}
+                                </select>
+                                <button type="button" class="btn btn-success mt-2" data-toggle="modal" data-target="#orderModal">
+                                    Заказать
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock %}
