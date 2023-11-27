@@ -40,3 +40,8 @@ def process_order_form(request):
 
 def about_page_view(request):
     return render(request, 'backend/about-us.html')
+
+
+def maps_page_view(request):
+    pharmacies = Pharmacy.objects.all()
+    return render(request, 'backend/maps.html', {'pharmacies': pharmacies})

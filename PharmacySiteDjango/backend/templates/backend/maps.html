@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Карта</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        .border-right {
+            border-right: 1px solid #dee2e6;
+        }
+        .text-grey {
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Наші Аптеки</h1>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Зображення</th>
+                    <th scope="col">Адреса</th>
+                    <th scope="col">Години роботи</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pharmacy in pharmacies %}
+                <tr>
+                    <td><img src="{{ pharmacy.image.url }}" alt="{{ pharmacy.address }}" style="max-width: 100px;"></td>
+                    <td><a href='{{ pharmacy.address_url }}'>{{ pharmacy.address }}</a></td>
+                    <td>{{ pharmacy.opening_hours }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
