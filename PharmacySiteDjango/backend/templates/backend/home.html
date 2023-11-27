@@ -19,12 +19,12 @@
                     <div class="input-group">
                         <input type="text" name="q" class='form-control' placeholder="Пошук за назвою ліків">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Пошук</button>
+                            <button class="btn btn-success" type="submit">Пошук</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <a href="{% url 'home' %}" class="btn btn-primary">Показати всі ліки</a>
+            <a href="{% url 'home' %}" class="btn btn-success">Показати всі ліки</a>
         </div>
 
         <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
@@ -40,14 +40,14 @@
                         <form id="orderForm" method="post" action="{% url 'order_medicine' %}">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">Надіслати замовлення</button>
+                            <button type="submit" class="btn btn-success">Надіслати замовлення</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row mt-4">
+        <div class="products row mt-4">
             {% for medicine in medicines %}
                 <div class="col-md-4 mb-4">
                     <div class="card">

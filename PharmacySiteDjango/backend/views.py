@@ -37,3 +37,6 @@ def process_order_form(request):
         form = OrderForm()
     return form
 
+
+def about_page_view(request):
+    return render(request, 'backend/about-us.html')
