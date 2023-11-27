@@ -37,18 +37,3 @@ def process_order_form(request):
         form = OrderForm()
     return form
 
-
-def order_medicine(request):
-    if request.method == 'POST':
-        # Обработка заказа лекарства
-        # Ваш код обработки заказа здесь
-        return HttpResponse("Order placed successfully!")  # Или любой другой ответ
-
-    return HttpResponse("Invalid request method")
-
-
-def get_pharmacies(request):
-    pharmacies = Pharmacy.objects.all()
-    # Преобразование данных аптек в формат JSON
-    pharmacies_data = [{'id': pharmacy.id, 'name': pharmacy.name, 'address': pharmacy.address} for pharmacy in pharmacies]
-    return JsonResponse(pharmacies_data, safe=False)

@@ -5,33 +5,33 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <!-- Ссылка на Bootstrap -->
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 {% endblock %}
 {% block content %}
     <div class="container mt-5">
-        <h1 class="text-center">Список лекарств</h1>
-        <!-- Поиск по лекарствам -->
+        <h1 class="text-center">Ліки в наявності</h1>
+
         <div class="row mt-4">
             <div class="col-md-6 offset-md-3">
                 <form method="GET" action="{% url 'home' %}">
                     <div class="input-group">
-                        <input type="text" name="q" class='form-control' placeholder="Поиск по названию лекарства">
+                        <input type="text" name="q" class='form-control' placeholder="Пошук за назвою ліків">
                         <div class="input-group-append">
-                            <button class="btn btn-primary" type="submit">Поиск</button>
+                            <button class="btn btn-primary" type="submit">Пошук</button>
                         </div>
                     </div>
                 </form>
             </div>
-            <a href="{% url 'home' %}" class="btn btn-primary">Показать все лекарства</a>
+            <a href="{% url 'home' %}" class="btn btn-primary">Показати всі ліки</a>
         </div>
 
         <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="orderModalLabel">Оформление заказа</h5>
+                        <h5 class="modal-title" id="orderModalLabel">Оформлення замовлення</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -40,14 +40,13 @@
                         <form id="orderForm" method="post" action="{% url 'order_medicine' %}">
                             {% csrf_token %}
                             {{ form.as_p }}
-                            <button type="submit" class="btn btn-primary">Отправить заказ</button>
+                            <button type="submit" class="btn btn-primary">Надіслати замовлення</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Карточки с лекарствами -->
         <div class="row mt-4">
             {% for medicine in medicines %}
                 <div class="col-md-4 mb-4">
@@ -61,7 +60,7 @@
                                 {% csrf_token %}
                                 <input type="hidden" name="medicine_id" value="{{ medicine.id }}">
                                 <button type="button" class="btn btn-success mt-2 orderBtn" data-toggle="modal" data-target="#orderModal" data-id="{{ medicine.id }}">
-                                    Заказать
+                                    Замовити
                                 </button>
                             </form>
                         </div>
