@@ -16,6 +16,6 @@ class MedicineAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('id', 'medicine', 'pharmacy', 'delivery_address', 'phone_number', 'full_name')
+    list_display = ('id', 'medicine', 'pharmacy', 'phone_number', 'full_name')
     list_filter = ('pharmacy',)
-    search_fields = ('medicine__name', 'pharmacy__name', 'delivery_address',)
+    search_fields = ('medicine__name', 'pharmacy__name',)

@@ -25,7 +25,7 @@ class Medicine(models.Model):
 class Order(models.Model):
     medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE)
     pharmacy = models.ForeignKey(Pharmacy, on_delete=models.CASCADE)
-    delivery_address = models.CharField(max_length=200)
+    quantity = models.DecimalField(max_digits=10, decimal_places=2)
     full_name = models.CharField(max_length=200)
     phone_number = models.CharField(max_length=30)
 

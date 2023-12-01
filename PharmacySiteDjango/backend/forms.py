@@ -5,15 +5,15 @@ from .models import Order
 
 class OrderForm(forms.ModelForm):
     medicine_id = forms.IntegerField(widget=forms.HiddenInput())
+    quantity = forms.IntegerField(min_value=1, initial=1, widget=forms.NumberInput(attrs={'class': 'form-control', 'style': 'width: 50px;'}))
 
     class Meta:
         model = Order
-        fields = ['pharmacy', 'delivery_address', 'full_name', 'phone_number']
+        fields = ['pharmacy', 'full_name', 'phone_number', 'quantity']
         widgets = {
-            'pharmacy': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Виберіть аптеку'}),
-            'delivery_address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введіть адресу'}),
-            'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введіть ім`я та прізвище'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введіть номер телефону'}),
+            'pharmacy': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Выберите аптеку'}),
+            'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите имя и фамилию'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите номер телефона'}),
         }
 
     def __init__(self, *args, **kwargs):
