@@ -10,10 +10,10 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = ['pharmacy', 'delivery_address', 'full_name', 'phone_number']
         widgets = {
-            'pharmacy': forms.Select(attrs={'class': 'form-control'}),
-            'delivery_address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите Address'}),
-            'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите имя и фамилию'}),
-            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите номер телефона'}),
+            'pharmacy': forms.Select(attrs={'class': 'form-control', 'placeholder': 'Виберіть аптеку'}),
+            'delivery_address': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введіть адресу'}),
+            'full_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введіть ім`я та прізвище'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введіть номер телефону'}),
         }
 
     def __init__(self, *args, **kwargs):
