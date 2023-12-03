@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 {% endblock %}
 {% block content %}
     <div class="container mt-5">
@@ -40,6 +42,7 @@
                         <form id="orderForm" method="post" action="{% url 'order_medicine' %}">
                             {% csrf_token %}
                             {{ form.as_p }}
+                            <input type="hidden" id="original_price" name="original_price">
                             <button type="submit" class="btn btn-success">Надіслати замовлення</button>
                         </form>
                     </div>
@@ -59,7 +62,8 @@
                             <form action="{% url 'order_medicine' %}" method="post">
                                 {% csrf_token %}
                                 <input type="hidden" name="medicine_id" value="{{ medicine.id }}">
-                                <button type="button" class="btn btn-success mt-2 orderBtn" data-toggle="modal" data-target="#orderModal" data-id="{{ medicine.id }}">
+                                <input type="hidden" name="medicine_price" value="{{ medicine.price }}">
+                                <button type="button" class="btn btn-success mt-2 orderBtn" data-toggle="modal" data-target="#orderModal" data-id="{{ medicine.id }}" data-price="{{ medicine.price }}">
                                     Замовити
                                 </button>
                             </form>
@@ -73,8 +77,36 @@
         $(document).ready(function() {
             $('.orderBtn').click(function() {
                 var medicineId = $(this).data('id');
+                var medicinePrice = parseFloat($(this).data('price')); // Получение цены за единицу товара
                 $('#orderModal input[name="medicine_id"]').val(medicineId);
+                $('#orderModal #id_price').val(medicinePrice);
+                $('#orderModal p#price').text('Ціна: ' + medicinePrice.toFixed(2)); // Вывод цены за единицу
+                $('#orderModal #original_price').val(medicinePrice); // Сохранение изначальной цены в скрытом поле формы
             });
+
+            $('#id_quantity').on('input', function() {
+                const quantity = parseInt($(this).val()) || 0;
+                const originalPrice = parseFloat($('#orderModal #original_price').val()) || 0; // Получение изначальной цены
+
+                const totalPrice = originalPrice * quantity; // Расчет общей стоимости
+
+                if (!isNaN(totalPrice)) {
+                    $('#id_price').val(totalPrice.toFixed(2)); // Обновление поля цены
+                    $('#orderModal p#price').text('Ціна: ' + totalPrice.toFixed(2)); // Обновление текста с общей стоимостью
+                } else {
+                    $('#id_price').val('0.00');
+                    $('#orderModal p#price').text('Ціна: 0.00');
+                }
+            });
+            
         });
+
+        document.getElementById('id_phone_number').addEventListener('input', function (e) {
+            var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,2})(\d{0,2})(\d{0,3})/);
+            e.target.value = !x[2] ? x[1] : '+' + x[1] + (x[2] ? ' (' + x[2] : '') + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+        });
+
+
+
     </script>
 {% endblock %}
