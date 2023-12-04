@@ -41,7 +41,23 @@
                     <div class="modal-body">
                         <form id="orderForm" method="post" action="{% url 'order_medicine' %}">
                             {% csrf_token %}
-                            {{ form.as_p }}
+                            <p>{{ form.pharmacy.label }}</p>
+                            <p>{{ form.pharmacy }}</p>
+                            <p>{{ form.full_name.label }}</p>
+                            <p>{{ form.full_name }}</p>
+                            <p>{{ form.phone_number.label }}</p>
+                            <p>{{ form.phone_number }}</p>
+                            <div style="display: flex; align-items: center;">
+                                <div style="flex: 1;">
+                                    <p>{{ form.quantity.label }}</p>
+                                    <p>{{ form.quantity }}</p>
+                                </div>
+                                <div>
+                                    <p>{{ form.price.label }}</p>
+                                    <p>{{ form.price }}</p>
+                                </div>
+                            </div>
+                            <p>{{ form.medicine_id }}</p>
                             <input type="hidden" id="original_price" name="original_price">
                             <button type="submit" class="btn btn-success">Надіслати замовлення</button>
                         </form>
@@ -105,8 +121,6 @@
             var x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,2})(\d{0,2})(\d{0,2})(\d{0,3})/);
             e.target.value = !x[2] ? x[1] : '+' + x[1] + (x[2] ? ' (' + x[2] : '') + (x[3] ? ') ' + x[3] : '') + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
         });
-
-
 
     </script>
 {% endblock %}
